@@ -1,0 +1,11 @@
+
+main =  putStrLn $ "the answer is "++show(length (queens 8))++" ways"++"\n"++show(queens 8)
+--包含list的二元list，queens的边缘
+queens 0=[[]]
+--运用递归方法生成，8列n行的数据，b表示n-1行，8列的所有8皇后解
+queens n = [ q:b | b <- queens (n-1), q <- [1..8], safe q b ]
+-- 将新加入的q元素与之前list中的元素一一比较，生成一个包含bool值的list，
+--最后用and合并list来确保新位置的皇后与其他皇后都(and)不(not)冲突。
+safe q b = and [ not (checks q b i) | i <- [0..(length b-1)] ]
+--check 检查皇后是否在同一列，和同一对角线上，由于新加上的数据每次放在第0列，所以双方的列差为i+1
+checks q b i = q==b!!i || abs(q - b!!i)==i+1
